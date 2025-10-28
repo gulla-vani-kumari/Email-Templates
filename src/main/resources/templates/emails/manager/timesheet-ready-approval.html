@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="subject" content="Timesheets Pending Approval in SPHUTA" />
+    <title>Timesheets Pending Approval in SPHUTA</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<p>Hi <b th:text="${managerName}">Manager</b>,</p>
+
+<p>
+    Timesheets for your team (<b th:text="${teamName}">Team</b>) for the period
+    <b th:text="${weekDate}">Week</b> are ready for your review and approval.
+</p>
+
+<p>
+    Please complete your approval by
+    <b th:text="${managerApprovalDeadline}">EOD Tomorrow</b>.
+</p>
+
+<p>
+    Approve here:<br/>
+    <a th:href="${managerDashboardLink}" th:text="${managerDashboardLink}">Manager Dashboard</a>
+</p>
+
+<p>Thanks,<br/>SPHUTA TMS</p>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+    <meta name="subject" th:content="|Escalation – Timesheet Pending for ${employeeName}|" />
+  <title th:text="|Escalation – Timesheet Pending for ${employeeName}|">Escalation – Timesheet Pending for Employee</title></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<p>Hi <b th:text="${managerName}">Manager</b>,</p>
+
+<p>
+  This is to inform you that <b th:text="${employeeName}">Employee</b> has not submitted their timesheet for
+  <b th:text="${weekDate}">the period</b> despite reminders.
+</p>
+
+<p>Please follow up and ensure completion at the earliest.</p>
+
+<p>
+  Link for manager view:<br/>
+  <a th:href="${managerDashboardLink}" th:text="${managerDashboardLink}">Manager Dashboard</a>
+</p>
+
+<p>Thanks,<br/>SPHUTA TMS</p>
+</body>
+</html>

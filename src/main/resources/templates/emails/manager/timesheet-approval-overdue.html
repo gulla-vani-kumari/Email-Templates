@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+    <meta name="subject" th:content="'URGENT – Timesheet Approval for ' + ${teamName} + ' is Overdue'" />
+  <title th:text="'URGENT – Timesheet Approval for ' + ${teamName} + ' is Overdue'">URGENT – Timesheet Approval for Team is Overdue</title></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<p>Hi <b th:text="${managerName}">Manager</b>,</p>
+
+<p>
+  This is a reminder that timesheets for <b th:text="${weekDate}">the period</b> are still pending your approval.
+  The deadline was <b th:text="${deadlineDateTime}">the deadline</b>.
+</p>
+
+<p>
+  Payroll processing cannot continue until the approval is completed.
+</p>
+
+<p>
+  Approve now:<br/>
+  <a th:href="${managerDashboardLink}" th:text="${managerDashboardLink}">Manager Dashboard</a>
+</p>
+
+<p>Thanks,<br/>SPHUTA TMS</p>
+</body>
+</html>

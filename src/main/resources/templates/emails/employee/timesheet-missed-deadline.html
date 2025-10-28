@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <!-- subject uses WeekDate dynamically -->
+    <meta name="subject" th:content="'URGENT – Your Timesheet for ' + ${weekDate} + ' is Overdue'"/>
+    <title th:text="'URGENT – Your Timesheet for ' + ${weekDate} + ' is Overdue'">URGENT – Your Timesheet is Overdue</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; color:#222; line-height:1.4; padding:16px; }
+        .container { max-width:600px; margin:auto; }
+        a { color:#2b6cb0; text-decoration:none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p>Hi <strong th:text="${employeeName}">Employee</strong>,</p>
+
+    <p>
+        Our system shows that your timesheet for
+        <strong th:text="${weekDate}">WeekDate</strong> was not submitted before the deadline.
+    </p>
+
+    <p>Please submit it immediately to avoid payroll delays.</p>
+
+    <p>Submit here:<br/>
+        <a th:href="${timesheetLink}" th:text="${timesheetLink}"
+           target="_blank" rel="noopener">Submit Timesheet</a>
+    </p>
+
+    <p>
+        Help Docs:
+        <a th:href="${helpLink}" th:text="${helpLink}" target="_blank" rel="noopener">Help Documentation</a><br/>
+        Support:
+        <a th:href="'mailto:' + ${itSupportEmail}" th:text="${itSupportEmail}">itsupport@sphuta.com</a>
+    </p>
+
+    <p><em>Repeated delays may be escalated to your reporting manager.</em></p>
+
+    <p>Thanks,<br/>SPHUTA TMS</p>
+</div>
+</body>
+</html>

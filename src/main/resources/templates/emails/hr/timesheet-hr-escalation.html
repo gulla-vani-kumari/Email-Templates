@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="subject" content="HR Escalation – Repeated Timesheet Non-Submission" />
+    <title>HR Escalation – Repeated Timesheet Non-Submission</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<p>Dear <b th:text="${hrContactName}">HR Contact</b>,</p>
+
+<p>
+    This is a formal escalation regarding repeated non-submission of timesheets
+    by <b th:text="${employeeName}">Employee</b> for the period
+    <b th:text="${weekDate}">Week</b>.
+</p>
+
+<p>
+    The case has already crossed <b>Employee → Manager → Admin</b> levels.
+</p>
+
+<p>
+    HR review link:<br/>
+    <a th:href="${hrDashboardLink}" th:text="${hrDashboardLink}">HR Dashboard</a>
+</p>
+
+<p>Thanks,<br/>SPHUTA TMS</p>
+</body>
+</html>

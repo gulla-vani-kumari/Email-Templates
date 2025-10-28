@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="subject" content="Administrative Escalation – Timesheet Non-Submission" />
+    <title>Administrative Escalation – Timesheet Non-Submission</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<p>Hi <b th:text="${adminName}">Admin</b>,</p>
+
+<p>
+    <b th:text="${employeeName}">Employee</b> has still not submitted their timesheet for
+    <b th:text="${weekDate}">the period</b> despite employee and manager escalation.
+</p>
+
+<p>Details:</p>
+<ul>
+    <li>Employee: <b th:text="${employeeName}">Employee</b></li>
+    <li>Manager: <b th:text="${managerName}">Manager</b></li>
+    <li>Team: <b th:text="${teamName}">Team</b></li>
+    <li>Pending Since: <b th:text="${deadlineDate}">Date</b></li>
+</ul>
+
+<p>
+    Admin dashboard:<br/>
+    <a th:href="${adminDashboardLink}" th:text="${adminDashboardLink}">Admin Dashboard</a>
+</p>
+
+<p>Thanks,<br/>SPHUTA TMS</p>
+</body>
+</html>
