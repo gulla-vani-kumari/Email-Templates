@@ -1,10 +1,10 @@
 package com.net.sphuta_tms.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.net.sphuta_tms.constants.TemplateDef;
+import com.net.sphuta_tms.dto.TemplateInfo;
 import com.net.sphuta_tms.enums.ReminderType;
+import com.net.sphuta_tms.constants.TemplateRegistry;
 import com.net.sphuta_tms.util.ReminderPayloadMapper;
-import com.net.sphuta_tms.util.ReminderTypeMapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * <p>Features provided:
  * <ul>
  *   <li>Mapping numeric reminder codes to reminder types.</li>
- *   <li>Resolving appropriate email templates for each reminder type.</li>
+ *   <li>Resolving appropriate email templates for each reminder type via TemplateRegistry.</li>
  *   <li>Converting raw payload maps into strongly-typed DTOs.</li>
  *   <li>Rendering email content using Thymeleaf templates.</li>
  *   <li>Extracting email subjects from template metadata.</li>
@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
  *   <li>{@link SpringTemplateEngine} for template rendering.</li>
  *   <li>{@link ObjectMapper} for payload to DTO conversion.</li>
  *   <li>{@link ReminderPayloadMapper} for mapping payloads to DTOs.</li>
+ *   <li>{@link TemplateRegistry} for template lookup by reminder number.</li>
  * </ul>
  *
  * <p>Logging is provided via SLF4J for tracing and debugging.</p>
@@ -63,7 +64,10 @@ public class EmailService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ReminderPayloadMapper payloadMapper; // new injection
+    private ReminderPayloadMapper payloadMapper; // existing mapper
+
+    @Autowired
+    private TemplateRegistry templateRegistry; // NEW: registry by reminder number
 
     // existing META pattern (or use Jsoup as you prefer)
     private static final Pattern META_SUBJECT =
@@ -80,18 +84,18 @@ public class EmailService {
     public void sendReminderByNumber(int reminderNumber, Map<String, Object> payload) throws MessagingException {
         log.info("EmailService.sendReminderByNumber number={} payloadKeys={}", reminderNumber, payload == null ? "null" : payload.keySet());
 
-        // 1) map number -> type
-        ReminderType type = ReminderTypeMapper.getType(reminderNumber);
-        if (type == null) {
-            log.warn("Unsupported reminder number: {}", reminderNumber);
-            throw new IllegalArgumentException("Unsupported reminder number: " + reminderNumber);
+        // 1) lookup template info by reminderNumber (fast map lookup)
+        TemplateInfo tinfo = templateRegistry.getByReminderNumber(reminderNumber);
+        if (tinfo == null) {
+            log.error("No template configured for reminderNumber={}", reminderNumber);
+            throw new IllegalArgumentException("Template not configured for reminder number: " + reminderNumber);
         }
 
-        // 2) resolve template
-        String template = TemplateDef.templateFor(type);
-        if (template == null) {
-            log.error("No template mapped for reminder type: {}", type);
-            throw new IllegalArgumentException("Template not configured for reminder type: " + type);
+        // 2) resolve ReminderType from numeric code (preserves existing mapper API)
+        ReminderType type = ReminderType.fromCode(reminderNumber);
+        if (type == null) {
+            log.warn("Unsupported reminder number (no enum mapping): {}", reminderNumber);
+            throw new IllegalArgumentException("Unsupported reminder number (no enum mapping): " + reminderNumber);
         }
 
         // 3) payload -> DTO conversion using existing mapper
@@ -103,9 +107,10 @@ public class EmailService {
             throw ex;
         }
 
-        // 4) reuse existing rendering & sending
-        sendUsingTemplate(template, dto);
-        log.info("EmailService: triggered send for reminderNumber={} type={} template={}", reminderNumber, type, template);
+        // 4) reuse existing rendering & sending, but use templatePath from registry
+        sendUsingTemplate(tinfo.getTemplatePath(), dto);
+        log.info("EmailService: triggered send for reminderNumber={} type={} templatePath={}",
+                reminderNumber, type, tinfo.getTemplatePath());
     }
 
     // --- existing sendUsingTemplate / extractSubject / sendHtml methods remain unchanged ---
