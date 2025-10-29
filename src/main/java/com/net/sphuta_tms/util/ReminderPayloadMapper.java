@@ -2,14 +2,10 @@ package com.net.sphuta_tms.util;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.net.sphuta_tms.dto.admin.AdminEscalationDto;
-import com.net.sphuta_tms.dto.employee.EmployeeFinalReminderDto;
-import com.net.sphuta_tms.dto.employee.EmployeeMissedDto;
-import com.net.sphuta_tms.dto.employee.EmployeeReminderDto;
-import com.net.sphuta_tms.dto.hr.HrEscalationDto;
-import com.net.sphuta_tms.dto.manager.ManagerApprovalOverdueDto;
-import com.net.sphuta_tms.dto.manager.ManagerEscalationDto;
-import com.net.sphuta_tms.dto.manager.ManagerReadyForApprovalDto;
+import com.net.sphuta_tms.dto.EmployeeReminderDto;
+import com.net.sphuta_tms.dto.HrEscalationDto;
+import com.net.sphuta_tms.dto.ManagerApprovalDto;
+import com.net.sphuta_tms.dto.AdminEscalationDto;
 import com.net.sphuta_tms.enums.ReminderType;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -44,12 +40,12 @@ public class ReminderPayloadMapper {
         // Register mapping: ReminderType -> DTO class
         // Update these if you move DTO classes/packages
         registry.put(ReminderType.EMPLOYEE_REMINDER, EmployeeReminderDto.class);
-        registry.put(ReminderType.EMPLOYEE_FINAL_REMINDER, EmployeeFinalReminderDto.class);
-        registry.put(ReminderType.EMPLOYEE_MISSED_DEADLINE, EmployeeMissedDto.class);
+        registry.put(ReminderType.EMPLOYEE_FINAL_REMINDER, EmployeeReminderDto.class);
+        registry.put(ReminderType.EMPLOYEE_MISSED_DEADLINE, EmployeeReminderDto.class);
 
-        registry.put(ReminderType.MANAGER_READY_FOR_APPROVAL, ManagerReadyForApprovalDto.class);
-        registry.put(ReminderType.MANAGER_APPROVAL_OVERDUE, ManagerApprovalOverdueDto.class);
-        registry.put(ReminderType.MANAGER_ESCALATION, ManagerEscalationDto.class);
+        registry.put(ReminderType.MANAGER_READY_FOR_APPROVAL, ManagerApprovalDto.class);
+        registry.put(ReminderType.MANAGER_APPROVAL_OVERDUE, ManagerApprovalDto.class);
+        registry.put(ReminderType.MANAGER_ESCALATION, ManagerApprovalDto.class);
 
         registry.put(ReminderType.ADMIN_ESCALATION, AdminEscalationDto.class);
         registry.put(ReminderType.HR_ESCALATION, HrEscalationDto.class);
