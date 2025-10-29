@@ -544,4 +544,5 @@ class EmailServiceTest {
     private String createHtmlWithSubject(String subject) {
         return String.format("<html><head><meta name='subject' content='%s'></head><body>Email content</body></html>", subject);
     }
+
 }
