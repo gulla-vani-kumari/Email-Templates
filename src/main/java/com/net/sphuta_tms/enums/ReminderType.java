@@ -41,6 +41,7 @@ public enum ReminderType {
         return code;
     }
 
+
     // fast reverse lookup map
     private static final Map<Integer, ReminderType> BY_CODE =
             Stream.of(values()).collect(Collectors.toMap(ReminderType::getCode, r -> r));
