@@ -60,7 +60,7 @@ public class TimesheetEmailScheduler {
     }
 
     // Runs every minute at second 0
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     public void sendEveryMinuteReminder() {
         log.info("Running Every Minute Reminder");
         triggerReminder(1, "test@example.com"); // use a test reminder number
